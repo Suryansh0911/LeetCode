@@ -1,24 +1,21 @@
 class Solution {
 public:
     vector<int> arrayRankTransform(vector<int>& arr) {
-        int n = arr.size();
-        if(n==0) return {};
+        vector<int> sorted = arr;
+        sort(sorted.begin(), sorted.end());
 
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
-        for(int i=0; i<n; i++){
-            minHeap.push({arr[i], i});
-        }
-        vector<int> ans(n);
-        int currank = 1;
-        int prev = minHeap.top().first;
-        while(!minHeap.empty()){
-            auto [val, index] = minHeap.top();
-            minHeap.pop();
-            if(val > prev){
-                currank++;
-                prev = val;
+        int rank = 1;
+        unordered_map<int, int> map;
+
+        for(int num : sorted){
+            if(map.find(num) == map.end()){
+                map[num] = rank;
+                rank++;
             }
-            ans[index] = currank;
+        }
+        vector<int> ans;
+        for(int numm : arr){
+            ans.push_back(map[numm]);
         }
         return ans;
     }
