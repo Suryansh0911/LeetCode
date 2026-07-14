@@ -1,32 +1,41 @@
+#include <vector>
+#include <numeric>
+#include <algorithm>
+
 class Solution {
-private:
-    int memo[201][201][201];
-    const int MOD = 1e9 + 7;
-
-    int solve(int i, int gcd1, int gcd2, const std::vector<int>& nums) {
-
-        if (i == nums.size()) {
-            return (gcd1 > 0 && gcd1 == gcd2) ? 1 : 0;
-        }
-
-        if (memo[i][gcd1][gcd2] != -1) {
-            return memo[i][gcd1][gcd2];
-        }
-
-        long long ans = solve(i + 1, gcd1, gcd2, nums);
-
-        int next_gcd1 = (gcd1 == 0) ? nums[i] : std::gcd(gcd1, nums[i]);
-        ans = (ans + solve(i + 1, next_gcd1, gcd2, nums)) % MOD;
-
-        int next_gcd2 = (gcd2 == 0) ? nums[i] : std::gcd(gcd2, nums[i]);
-        ans = (ans + solve(i + 1, gcd1, next_gcd2, nums)) % MOD;
-
-        return memo[i][gcd1][gcd2] = ans;
-    }
-
 public:
     int subsequencePairCount(std::vector<int>& nums) {
-        std::memset(memo, -1, sizeof(memo));
-        return solve(0, 0, 0, nums);
+        int MOD = 1e9 + 7;
+        int n = nums.size();
+        int max_val = *std::max_element(nums.begin(), nums.end());
+
+        std::vector<std::vector<int>> dp(max_val + 1, std::vector<int>(max_val + 1, 0));
+
+        dp[0][0] = 1;
+
+        for (int num : nums) {
+
+            auto next_dp = dp;
+
+            for (int x = 0; x <= max_val; ++x) {
+                for (int y = 0; y <= max_val; ++y) {
+                    if (dp[x][y] == 0) continue;
+
+                    int next_x = (x == 0) ? num : std::gcd(x, num);
+                    next_dp[next_x][y] = (next_dp[next_x][y] + dp[x][y]) % MOD;
+
+                    int next_y = (y == 0) ? num : std::gcd(y, num);
+                    next_dp[x][next_y] = (next_dp[x][next_y] + dp[x][y]) % MOD;
+                }
+            }
+            dp = std::move(next_dp);
+        }
+
+        long long ans = 0;
+        for (int g = 1; g <= max_val; ++g) {
+            ans = (ans + dp[g][g]) % MOD;
+        }
+
+        return ans;
     }
 };
