@@ -1,25 +1,19 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
-    int offset;
-    int help(vector<int> &nums, int n, int i, int target){
-        if(target < -offset || target > offset) return 0;
-        if(i == n) return target==0;
-
-        if(dp[i][target+offset] != -1){
-            return dp[i][target+offset];
-        }
-        
-        int add = help(nums, n, i+1, target-nums[i]);
-        int sub = help(nums, n, i+1, target+nums[i]);
-        return dp[i][target+offset] = add + sub;
-    }
-
     int findTargetSumWays(vector<int>& nums, int target){
         int sum = accumulate(nums.begin(), nums.end(), 0);
-        if(sum < abs(target)) return 0;
-        offset = sum;
-        dp.assign(nums.size(), vector<int>(2*sum+1, -1));
-        return help(nums, nums.size(), 0, target);
+        if(abs(target) > sum) return 0;
+
+        if((sum + target) %2 != 0) return 0;
+        int subsetsum = (sum + target)/2;
+        vector<int> dp(subsetsum+1, 0);
+        dp[0]=1;
+
+        for(int num : nums){
+            for(int j=subsetsum; j>=num; j--){
+                dp[j] += dp[j-num];
+            }
+        }
+        return dp[subsetsum];
     }
 };
