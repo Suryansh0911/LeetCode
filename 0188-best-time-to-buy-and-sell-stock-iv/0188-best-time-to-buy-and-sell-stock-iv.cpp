@@ -1,27 +1,18 @@
 class Solution {
 public:
     int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        vector<int> buy(k, INT_MAX);
+        vector<int> sell(k+1, 0);
 
-        int actions = 2 * k;
-
-        vector<int> next(actions + 1, 0);
-        vector<int> curr(actions + 1, 0);
-
-        for(int i = prices.size() - 1; i >= 0; i--) {
-
-            for(int action = 1; action <= actions; action++) {
-
-                if(action % 2 == 0)
-                    curr[action] = max(-prices[i] + next[action - 1],
-                                       next[action]);
-                else
-                    curr[action] = max(prices[i] + next[action - 1],
-                                       next[action]);
+        for(auto price : prices){
+            buy[0] = min(buy[0], price);
+            for(int i=1; i<k; i++){
+               sell[i-1] = max(sell[i-1], price-buy[i-1]);
+               buy[i] = min(buy[i], price - sell[i-1]); 
             }
-
-            next = curr;
+            sell[k] = max(sell[k], price - buy[k-1]);
         }
-
-        return next[actions];
+        return sell[k];
     }
 };
