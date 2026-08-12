@@ -10,14 +10,15 @@
 class Solution {
 public:
     TreeNode* ans = NULL;
+
     int fun(TreeNode* root, TreeNode* p, TreeNode* q){
         if(root == NULL) return 0;
         int left = fun(root->left, p, q);
         int right = fun(root->right, p, q);
-        int self = 0;
+        int self=0;
         if(root == p || root == q) self = 1;
         int total = self + left + right;
-        if(total == 2 && ans == NULL) {
+        if(total == 2 && ans == NULL){
             ans = root;
         }
         return total;
