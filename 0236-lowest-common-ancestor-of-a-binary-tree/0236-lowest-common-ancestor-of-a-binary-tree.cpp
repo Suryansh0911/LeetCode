@@ -24,6 +24,7 @@ public:
         return total;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        ans = NULL;
         fun(root, p, q);
         return ans;
     }
