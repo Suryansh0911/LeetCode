@@ -4,8 +4,15 @@ public:
         unordered_map<string, vector<string>> map;
         vector<vector<string>> ans;
         for(const auto &s : strs){
-            string key = s;
-            sort(key.begin(), key.end());
+            vector<int> freq(26, 0);
+            for(char ch : s){
+                freq[ch-'a']++;
+            }
+            string key;
+            for(int count : freq){
+                key += to_string(count);
+                key += '#';
+            }
             map[key].push_back(s);
         }
         for(const auto [key, group] : map){
