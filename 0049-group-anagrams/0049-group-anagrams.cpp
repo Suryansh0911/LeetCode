@@ -8,7 +8,7 @@ public:
             sort(key.begin(), key.end());
             map[key].push_back(s);
         }
-        for(auto [key, group] : map){
+        for(const auto [key, group] : map){
             ans.push_back(group);
         }
         return ans;
