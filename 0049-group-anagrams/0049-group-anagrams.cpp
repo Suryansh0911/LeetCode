@@ -15,7 +15,7 @@ public:
             }
             map[key].push_back(s);
         }
-        for(const auto [key, group] : map){
+        for(const auto& [key, group] : map){
             ans.push_back(group);
         }
         return ans;
