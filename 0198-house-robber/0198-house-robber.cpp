@@ -11,9 +11,7 @@ public:
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        if(dp.empty()){
-            dp.assign(n+1, -1);
-        }
+        dp.assign(n, -1);
         return help(nums, 0);
     }
 };
