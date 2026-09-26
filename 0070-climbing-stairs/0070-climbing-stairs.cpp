@@ -1,15 +1,14 @@
 class Solution {
-public:
     vector<int> dp;
+    int ways(int i){
+        if(i<=1) return 1;
+        if(dp[i] != -1) return dp[i];
+        return dp[i] = ways(i-1) + ways(i-2);
+    }
+public:
+    
     int climbStairs(int n) {
-        if(n<=1) return 1;
-
-        if(dp.empty()){
-            dp.assign(n+1, -1);
-        }
-        if(dp[n] != -1){
-            return dp[n];
-        }
-        return dp[n] = climbStairs(n-1) + climbStairs(n-2);
+        dp.assign(n+1, -1);
+        return ways(n);
     }
 };
