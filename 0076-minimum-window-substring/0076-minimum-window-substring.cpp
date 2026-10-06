@@ -5,20 +5,20 @@ public:
         if(t.empty() || m < n) return "";
         vector<int> frq(256, 0);
         for(char ch : t) frq[ch]++;
-        int low=0, required=n, ans=INT_MAX, start=0;
-        for(int high=0; high<m; high++){
-            if(frq[s[high]] > 0) required--;
-            frq[s[high]]--;
+        int left=0, required=n, start=0, len=INT_MAX;
+        for(int right=0; right<m; right++){
+            if(frq[s[right]] > 0) required--;
+            frq[s[right]]--;
             while(required == 0){
-                if(high-low+1 < ans){
-                    ans = high-low+1;
-                    start = low;
+                if(right-left+1 < len){
+                    len = right-left+1;
+                    start = left;
                 }
-                frq[s[low]]++;
-                if(frq[s[low]] > 0) required++;
-                low++;
+                frq[s[left]]++;
+                if(frq[s[left]] > 0) required++;
+                left++;
             }
         }
-        return (ans == INT_MAX) ? "" : s.substr(start, ans);
+        return (len == INT_MAX) ? "" : s.substr(start, len);
     }
 };
