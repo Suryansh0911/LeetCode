@@ -2,6 +2,7 @@ class Solution {
 public:
     string minWindow(string s, string t) {
         int m = s.length(), n = t.length();
+        if(t.empty() || m < n) return "";
         vector<int> frq(256, 0);
         for(char ch : t) frq[ch]++;
         int low=0, required=n, ans=INT_MAX, start=0;
