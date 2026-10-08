@@ -14,7 +14,6 @@ public:
             while(diff > k){
                 frq[s[left]-'A']--;
                 left++;
-                maxcount = max(maxcount, frq[s[right]-'A']);
                 len = right-left+1;
                 diff = len - maxcount;
             }
