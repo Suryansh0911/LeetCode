@@ -11,7 +11,8 @@
  */
 class Solution {
 public:
-    bool fun(TreeNode* root, TreeNode* &prev){
+    bool fun(TreeNode* root, TreeNode* &
+    prev){
         if(!root) return true;
         if(!fun(root->left, prev)) return false;
         if(prev && root->val <= prev->val) return false;
